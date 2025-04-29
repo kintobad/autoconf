@@ -79,15 +79,18 @@ server {
     listen 80;
     server_name $DOMAIN www.$DOMAIN;
 
+    root /var/www/html;
+
     location /.well-known/acme-challenge/ {
-        root /var/www/html;
+        allow all;
     }
 
     location / {
-        return 301 https://$host$request_uri;
+        try_files \$uri \$uri/ =404;
     }
 }
 EOF
+
 
 # Подключение конфига
 sudo ln -sf /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/
